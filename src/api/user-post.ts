@@ -10,6 +10,7 @@ export default async function userPost(state: {}, formData: FormData) {
   const password = formData.get("password") as string | null;
   try {
     if (!username ||!email || !password) throw new Error("Preencha os dados");
+    if(password.length < 6) throw new Error('A senha deve ter mais que 6 digitos')
     const { url } = USER_POST();
     const response = await fetch(url, {
       method: "POST",
@@ -20,9 +21,7 @@ export default async function userPost(state: {}, formData: FormData) {
 
     const {ok} = await Login({ok:true, error:''},formData)
     if(!ok) throw new Error('Error ao Logar')
-  /*   if (response.ok) {
-   
-    } */
+ 
     return {
       ok: true,
       error: "",
