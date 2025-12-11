@@ -1,16 +1,15 @@
 "use client";
 
-import login from "@/api/login";
 import { useFormStatus } from "react-dom";
 import Button from "../form/button";
 import { useActionState, useEffect } from "react";
 import Input from "../form/input";
 import ErrorMessage from "../helper/error-message";
-import Link from "next/link";
 import styles from "@/components/login/login-form.module.css";
+import userPost from "@/api/user-post";
 
-export default function LoginForm() {
-	const [state, action] = useActionState(login, {
+export default function LoginCriarForm() {
+	const [state, action] = useActionState(userPost, {
 		ok: false,
 		error: "",
 		data: null,
@@ -23,21 +22,11 @@ export default function LoginForm() {
 		<>
 			<form action={action} className={styles.form}>
 				<Input label="Usuario" name="username" />
+				<Input label="Email" name="email" />
 				<Input label="Senha" name="password" type="password" />
 				<ErrorMessage error={state.error} />
 				<FormButton />
 			</form>
-
-			<Link className={styles.perdeu} href={"/login/perdeu"}>
-				Perdeu a senha?
-			</Link>
-			<div className={styles.cadastro}>
-				<h2 className={styles.subtitle}>Cadastre-se</h2>
-				<p>Ainda não possui conta? cadastre-se no site.</p>
-				<Link className="button" href={"/login/criar"}>
-					Cadastro
-				</Link>
-			</div>
 		</>
 	);
 }
@@ -48,9 +37,9 @@ function FormButton() {
 	return (
 		<>
 			{form.pending ? (
-				<Button disabled>Entrando...</Button>
+				<Button disabled>Cadastrando...</Button>
 			) : (
-				<Button>Entrar</Button>
+				<Button>Cadastrar</Button>
 			)}
 		</>
 	);
